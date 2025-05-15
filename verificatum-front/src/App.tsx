@@ -6,6 +6,8 @@ import { Pagination } from "flowbite-react";
 import Config from "./pages/1-Config";
 import Keygen from "./pages/2-Keygen";
 import WordsMock from "./pages/3-WordsMock";
+import Mixing from "./pages/4-Mixing";
+import Decode from "./pages/5-Decode";
 
 const etapas = [
   { numero: 1,  descricao: "Set Up" },
@@ -30,7 +32,8 @@ export default function App() {
 
 {step === 2 && <Keygen  />}
 {step === 3 && <WordsMock  />}
-
+{step === 4 && <Mixing  />}
+{step === 5 && <Decode  />}
    
     </main>
     <div className="flex overflow-x-auto sm:justify-center">

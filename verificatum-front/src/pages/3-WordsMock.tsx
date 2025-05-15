@@ -107,7 +107,7 @@ export default function WordsMock() {
             <TableRow>
               <TableHeadCell>Token</TableHeadCell>
               <TableHeadCell>Voto</TableHeadCell>
-              <TableHeadCell>Voto Cifrado</TableHeadCell>
+              {/* <TableHeadCell>Voto Cifrado</TableHeadCell> */}
             </TableRow>
           </TableHead>
           <TableBody className="divide-y">
@@ -122,7 +122,7 @@ export default function WordsMock() {
                 >
                   <TableCell>{voto.token}</TableCell>
                   <TableCell>{voto.voto}</TableCell>
-                  <TableCell>{voto.voto_cifrado}</TableCell>
+                  {/* <TableCell>{voto.voto_cifrado}</TableCell> */}
                 </TableRow>
               );
             })}
