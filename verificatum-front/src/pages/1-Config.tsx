@@ -1,13 +1,18 @@
-import { Button } from "flowbite-react"
+import { Button, Alert, Spinner } from "flowbite-react"
+import { useState } from "react"
 
-interface ConfigProps {
-  onConectado: () => void
-}
+export default function Config() {
+  const [mensagem, setMensagem] = useState("")
+  const [tipo, setTipo] = useState<"success" | "error" | "">("")
+  const [loading, setLoading] = useState(false)
 
-export default function Config({ onConectado }: ConfigProps) {
   const conectar = async () => {
+    setLoading(true)
+    setMensagem("")
+    setTipo("")
+
     try {
-      const response = await fetch("http://localhost:5000/api/connect", {
+      const response = await fetch("http://127.0.0.1:5000/api/setup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -15,29 +20,48 @@ export default function Config({ onConectado }: ConfigProps) {
       })
 
       const data = await response.json()
-      console.log("Resposta do servidor:", data)
 
-      if (data.status === "ok") {
-        alert(data.message)
-        onConectado() // avança o wizard
+      if (data.status === "Setup complete") {
+        setMensagem("Setup Concluído")
+        setTipo("success")
       } else {
-        alert("Erro na conexão.")
+        setMensagem("Erro na conexão.")
+        setTipo("error")
       }
     } catch (err) {
-      alert("Erro ao conectar com o servidor.")
+      setMensagem("Erro ao conectar com o servidor.")
+      setTipo("error")
       console.error(err)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <h2 className="text-2xl font-semibold">Etapa 1: Configuração Inicial</h2>
+      <h2 className="text-2xl font-semibold">Setup Geral</h2>
       <p className="text-gray-400 text-center max-w-md">
-        Esta etapa conecta o sistema ao servidor de mixagem local.
+        Fazer o setup inicial do Verificatum
       </p>
-      <Button onClick={conectar} color="blue">
-        Conectar
+
+      {mensagem && (
+        <Alert color={tipo === "success" ? "success" : "failure"}>
+          <span className="font-medium">{mensagem}</span>
+        </Alert>
+      )}
+
+      <Button onClick={conectar} color="blue" disabled={loading}>
+        {loading ? (
+          <>
+            <Spinner size="sm" light className="mr-2" />
+            Carregando...
+          </>
+        ) : (
+          "Iniciar"
+        )}
       </Button>
+
+
     </div>
   )
 }
